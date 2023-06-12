@@ -22,15 +22,14 @@ HTTPService.interceptors.response.use(
   (error) => {
     if (error.response.status === 401) {
       window.location.href = "/";
-    }
-
+    };
     if (error.response.status === 400 || error.response.status === 404) {
       if (error.response.data.message) {
         alert(error.response.data.message);
       } else {
         alert(error);
       }
-    }
+    };
     document.body.classList.remove("loading-indicator");
     return Promise.reject(error);
   }

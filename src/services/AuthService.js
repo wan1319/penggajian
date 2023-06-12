@@ -2,7 +2,7 @@ import config from "../config";
 import HTTPService from "./HTTPService";
 
 const ENPOINT_LOGIN = "/user/login";
-const ENDPOINT_CHECK_TOKEN = "/hello/world";
+const ENDPOINT_CHECK_TOKEN = "/user/login";
 const KEY_LOCAL_STORAGE_TOKEN = "TOKEN";
 
 const login = ({ email, password }) => {
@@ -26,7 +26,6 @@ const tokenVerify = async () => {
           },
         }
       );
-
       return true;
     }
 

@@ -3,10 +3,36 @@ import NavigationWidget from "../../widgets/commons/NavigationWidget";
 import { useNavigate } from "react-router-dom";
 import { VscAdd } from "react-icons/vsc";
 import { FaSearch } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import KaryawanService from "../../services/KaryawanService";
 
 const KaryawanPage = () => {
   const navigate = useNavigate();
+  const [daftarKaryawan, setDaftarKaryawan] = useState([]);
+  const [paginateKaryawan, setPaginateKaryawan] = useState([]);
+  const [queryKaryawan, setQueryKaryawan] = useState({ page: 1, limit: 10 });
+
+  useEffect(() => {
+    KaryawanService.list(queryKaryawan)
+      .then((response) => {
+        setDaftarKaryawan(response.data);
+        if (response.headers.pagination) {
+          setPaginateKaryawan(JSON.parse(response.headers.pagination))
+        }
+      })
+      .catch((error) => console.log(error));
+  }, [queryKaryawan]);
+
+  const callbackPaginator = (page) => {
+    setQueryKaryawan((values) => ({ ...values, page }));
+  };
+
+  const callbackKaryawanSearchInlineWidget = (query) => {
+    setQueryKaryawan((values) => ({ ...values, ...query }));
+  };
+
   return (
+    
     <NavigationWidget
       buttonCreate={
         <Button onClick={() => navigate("/karyawan/add")}>
@@ -29,8 +55,8 @@ const KaryawanPage = () => {
         <Table striped bordered hover size="sm">
           <thead>
             <tr>
-              <th>ID</th>
-              <th>Nama</th>
+              <th>ID Karyawan</th>
+              <th>Nama Karyawan</th>
               <th>Gaji Pokok</th>
               <th>Golongan</th>
               <th>Jabatan</th>
@@ -40,16 +66,18 @@ const KaryawanPage = () => {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>KY-001</td>
-              <td>Kiki Putra</td>
-              <td>5000000</td>
-              <td>Golongan-01</td>
-              <td>Manager</td>
-              <td>Divisi-01</td>
-              <td>Menikah</td>
-              <td>2</td>
-            </tr>
+            {daftarKaryawan.map((karyawan, index) => {
+              <tr key={index}>
+                <td>{karyawan.ID_Karyawan}</td>
+                <td>{karyawan.Nama_Karyawan}</td>
+                <td>{karyawan.Gaji_Pokok}</td>
+                <td>{karyawan.ID_Golongan}</td>
+                <td>{karyawan.ID_Jabatan}</td>
+                <td>{karyawan.Divisi}</td>
+                <td>{karyawan.Status_Pernikahan}</td>
+                <td>{karyawan.Jumlah_Anak}</td>
+              </tr>
+            })}
           </tbody>
         </Table>
       </Card>

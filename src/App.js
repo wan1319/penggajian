@@ -13,6 +13,8 @@ import PendapatanPage from "./pages/pendapatan/PendapatanPage";
 import PenggajianInputPage from "./pages/penggajian/PenggajianInputPage";
 import PenggajianListPage from "./pages/penggajian/PenggajianListPage";
 import LaporanGajiPage from "./pages/laporan/LaporanGajiPage";
+import KaryawanEditPage from "./pages/karyawan/KaryawanEditPage";
+import GolonganAddPage from "./pages/golongan/GolonganAddPage";
 
 function App() {
   return (
@@ -25,8 +27,10 @@ function App() {
         <Route path="/profil" element={<ProfilPage />} />
         <Route path="/karyawan" element={<KaryawanPage />} />
         <Route path="/karyawan/add" element={<KaryawanAddPage />} />
+        <Route path="/karyawan/edit/:ID_Karyawan" element={<KaryawanEditPage />} />
         <Route path="/jabatan" element={<JabatanPage />} />
         <Route path="/golongan" element={<GolonganPage />} />
+        <Route path="/golongan/add" element={<GolonganAddPage />} />
         <Route path="/pendapatan" element={<PendapatanPage />} />
         <Route path="/potongan" element={<PotonganPage />} />
         <Route path="/laporan" element={<LaporanGajiPage />} />

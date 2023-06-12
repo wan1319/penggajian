@@ -1,12 +1,13 @@
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button, Card, Form } from "react-bootstrap";
-import NavigationWidget from "../../widgets/commons/NavigationWidget";
-import { FaArrowLeft, FaSave } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { FaArrowLeft, FaSave, FaTrash } from "react-icons/fa";
 import KaryawanService from "../../services/KaryawanService";
+import NavigationWidget from "../../widgets/commons/NavigationWidget";
 
-const KaryawanAddPage = () => {
+const KaryawanEditPage = () => {
     const navigate = useNavigate();
+    const { ID_Karyawan } = useParams();
     const [karyawan, setKaryawan] = useState({});
 
     const handleInput = (e) => {
@@ -16,26 +17,44 @@ const KaryawanAddPage = () => {
         setKaryawan((values) => ({ ...values, [name]: value }));
     };
 
-    const handleKaryawanServiceCreate = () => {
-        KaryawanService.create(karyawan).then((response) => {
-            alert("Karyawan berhasil ditambahkan.");
+    useEffect(() => {
+        KaryawanService.get(ID_Karyawan).then((response) => {
+            setKaryawan(response.data);
+        });
+    }, [ID_Karyawan]);
+
+    const handleKaryawanServiceEdit = () => {
+        KaryawanService.edit(ID_Karyawan, karyawan).then(() => {
+            alert(`Berhasil mengubah data karyawan ${ID_Karyawan}`);
             navigate("/karyawan");
         });
     };
 
+    const handleKaryawanServiceDelete = () => {
+        let isDelete = window.confirm(`Delete karyawan ${ID_Karyawan}?`)
+        if (isDelete) {
+            KaryawanService.delete(ID_Karyawan, karyawan).then(() => {
+                alert(`Berhasil mengubah data karyawan ${ID_Karyawan}`);
+                navigate("/karyawan");
+            });
+        }
+
+    };
+
     return (
-        <NavigationWidget
-            actionTop={
-                <>
-                    <Button className="me-2" variant="secondary" onClick={() => navigate(-1)}>
-                        <FaArrowLeft /> Kembali
-                    </Button>
-                    <Button onClick={handleKaryawanServiceCreate}>
-                        <FaSave /> Simpan
-                    </Button>
-                </>
-            }
-        >
+        <NavigationWidget actionTop={
+            <>
+                <Button className="me-2" variant="secondary" onClick={() => navigate(-1)}>
+                    <FaArrowLeft /> Kembali
+                </Button>
+                <Button className="me-2" variant="danger" onClick={handleKaryawanServiceDelete}>
+                    <FaTrash />Hapus
+                </Button>
+                <Button onClick={handleKaryawanServiceEdit}>
+                    <FaSave />Simpan
+                </Button>
+            </>
+        }>
             <Card>
                 <Card.Header>
                     <h5>Tambah Karyawan</h5>
@@ -45,6 +64,7 @@ const KaryawanAddPage = () => {
                         <Form.Label>ID Karyawan</Form.Label>
                         <Form.Control
                             name="ID_Karyawan"
+                            disabled
                             value={karyawan.ID_Karyawan || ""}
                             onChange={handleInput}
                         />
@@ -111,4 +131,4 @@ const KaryawanAddPage = () => {
     );
 };
 
-export default KaryawanAddPage;
+export default KaryawanEditPage;
