@@ -58,7 +58,7 @@ const GolonganPage = () => {
               <th>Nama Golongan</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody onClick={() => navigate("/golongan/edit/:ID_Golongan")}>
           {daftarGolongan.results && daftarGolongan.results.map((golongan, index) => (
               <tr key={index}>
                 <td>{golongan.ID_Golongan}</td>

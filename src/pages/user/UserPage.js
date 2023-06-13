@@ -53,9 +53,8 @@ const UserPage = () => {
               <th>Status</th>
             </tr>
           </thead>
-          <tbody>
-          {daftarUser.results &&
-              daftarUser.results.map((user, index) => (
+          <tbody onClick={() => navigate("/user/edit")}>
+          {daftarUser.results && daftarUser.results.map((user, index) => (
                 <tr key={index}>
                   <td>{user.email}</td>
                   <td>{user.NamaLengkap}</td>

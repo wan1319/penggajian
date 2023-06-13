@@ -3,13 +3,38 @@ import NavigationWidget from "../../widgets/commons/NavigationWidget";
 import { useNavigate } from "react-router-dom";
 import { VscAdd } from "react-icons/vsc";
 import { FaSearch } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import JabatanService from "../../services/JabatanService";
 
 const JabatanPage = () => {
   const navigate = useNavigate();
+  const [daftarJabatan, setDaftarJabatan] = useState({});
+  const [paginateJabatan, setPaginateJabatan] = useState([]);
+  const [queryJabatan, setQueryJabatan] = useState({ page: 1, limit: 10 });
+
+  useEffect(() => {
+    JabatanService.list(daftarJabatan)
+      .then((response) => {
+        setDaftarJabatan(response.data);
+        if (response.headers.pagination) {
+          setPaginateJabatan(JSON.parse(response.headers.pagination));
+        }
+      })
+      .catch((error) => console.log(error));
+  }, [queryJabatan]);
+
+  const callbackPaginator = (page) => {
+    setQueryJabatan((values) => ({ ...values, page }));
+  };
+
+  const callbackJabatanSearchInlineWidget = (query) => {
+    setQueryJabatan((values) => ({ ...values, ...query }));
+  };
+
   return (
     <NavigationWidget
       buttonCreate={
-        <Button onClick={() => navigate("/user/add")}>
+        <Button onClick={() => navigate("/jabatan/add")}>
           <VscAdd />  Tambah
         </Button>
       }
@@ -29,21 +54,17 @@ const JabatanPage = () => {
         <Table striped bordered hover size="sm">
           <thead>
             <tr>
-              <th>ID</th>
+              <th>ID Jabatan</th>
               <th>Nama Jabatan</th>
-              <th>Tunjangan Jabatan</th>
-              <th>Tunjangan Keluarga</th>
-              <th>Tunjangan Anak</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>JB-001</td>
-              <td>HRD</td>
-              <td>200000</td>
-              <td>300000</td>
-              <td>400000</td>
-            </tr>
+          <tbody onClick={() => navigate("/jabatan/edit/:ID_Jabatan")}>
+            {daftarJabatan.results && daftarJabatan.results.map((jabatan, index) => (
+                <tr key={index}>
+                  <td>{jabatan.ID_Jabatan}</td>
+                  <td>{jabatan.Nama_Jabatan}</td>
+                </tr>
+              ))}
           </tbody>
         </Table>
       </Card>
