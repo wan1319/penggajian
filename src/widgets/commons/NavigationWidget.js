@@ -26,9 +26,9 @@ const NavigationWidget = ({ children, buttonCreate, actionTop, username, avatar 
         <Row>
           <Col md={2}>
             <Nav className="flex-column">
-              <Nav.Link onClick={() => navigate("/dashboard")}>
+              {/* <Nav.Link onClick={() => navigate("/dashboard")}>
                 <RiDashboardFill /> Dashboard
-              </Nav.Link>
+              </Nav.Link> */}
               <Nav.Link disabled>
                 <BsFillDatabaseFill /> MASTER
               </Nav.Link>
@@ -48,7 +48,6 @@ const NavigationWidget = ({ children, buttonCreate, actionTop, username, avatar 
                 <HiDocumentReport /> LAPORAN
               </Nav.Link>
               <Nav.Link onClick={() => navigate("/laporan")}>Laporan Gaji</Nav.Link>
-              <Nav.Link onClick={() => navigate("/reporting/pembelian")}>Slip Gaji</Nav.Link>
             </Nav>
           </Col>
           <Col md={10}>

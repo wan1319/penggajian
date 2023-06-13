@@ -9,7 +9,7 @@ import GolonganService from "../../services/GolonganService";
 
 const GolonganPage = () => {
   const navigate = useNavigate();
-  const [daftarGolongan, setDaftarGolongan] = useState([]);
+  const [daftarGolongan, setDaftarGolongan] = useState({});
   const [paginateGolongan, setPaginateGolongan] = useState([]);
   const [queryGolongan, setQueryGolongan] = useState({ page: 1, limit: 10 });
 
@@ -56,17 +56,15 @@ const GolonganPage = () => {
             <tr>
               <th>ID</th>
               <th>Nama Golongan</th>
-              <th>Tunjangan Golongan</th>
             </tr>
           </thead>
           <tbody>
-            {daftarGolongan.map((golongan, index) => {
+          {daftarGolongan.results && daftarGolongan.results.map((golongan, index) => (
               <tr key={index}>
                 <td>{golongan.ID_Golongan}</td>
                 <td>{golongan.Nama_Golongan}</td>
-                <td>{golongan.Tunjangan_Golongan}</td>
               </tr>
-            })}
+            ))}
           </tbody>
         </Table>
       </Card>

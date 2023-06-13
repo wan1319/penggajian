@@ -2,9 +2,27 @@ import { Button, Card, Form } from "react-bootstrap";
 import NavigationWidget from "../../widgets/commons/NavigationWidget";
 import { FaArrowLeft, FaSave } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import UserService from "../../services/UserService";
+import { useState } from "react";
 
 const UserAddPage = () => {
     const navigate = useNavigate();
+    const [user, setUser] = useState({});
+
+    const handleInput = (e) => {
+        let name = e.target.name;
+        let value = e.target.value;
+
+        setUser((values) => ({ ...values, [name]: value }));
+    };
+
+    const handleUserServiceCreate = () => {
+        UserService.create(user).then((response) => {
+            alert("User berhasil ditambahkan.");
+            navigate("/user");
+        });
+    };
+
     return (
         <NavigationWidget
             actionTop={
@@ -12,7 +30,7 @@ const UserAddPage = () => {
                     <Button className="me-2" variant="secondary" onClick={() => navigate(-1)}>
                         <FaArrowLeft /> Kembali
                     </Button>
-                    <Button>
+                    <Button onClick={handleUserServiceCreate}>
                         <FaSave /> Simpan
                     </Button>
                 </>
@@ -25,23 +43,34 @@ const UserAddPage = () => {
                 <Card.Body>
                     <Form.Group>
                         <Form.Label>Nama Lengkap</Form.Label>
-                        <Form.Control name="" />
-                    </Form.Group>
-                    <Form.Group className="mt-3">
-                        <Form.Label>Username</Form.Label>
-                        <Form.Control name="" />
+                        <Form.Control
+                            name="NamaLengkap"
+                            value={user.NamaLengkap || ""}
+                            onChange={handleInput} />
                     </Form.Group>
                     <Form.Group className="mt-3">
                         <Form.Label>Email</Form.Label>
-                        <Form.Control />
+                        <Form.Control
+                            name="email"
+                            value={user.email || ""}
+                            onChange={handleInput}
+                            required // Tambahkan atribut required
+                            type="email" // Tambahkan tipe email untuk validasi
+                        />
                     </Form.Group>
                     <Form.Group className="mt-3">
                         <Form.Label>Password</Form.Label>
-                        <Form.Control />
+                        <Form.Control
+                        name="password"
+                        value={user.password || ""}
+                        onChange={handleInput} />
                     </Form.Group>
                     <Form.Group className="mt-3">
                         <Form.Label>Status</Form.Label>
-                        <Form.Control />
+                        <Form.Control
+                        name="Status"
+                        value={user.Status || ""}
+                        onChange={handleInput} />
                     </Form.Group>
                 </Card.Body>
             </Card>

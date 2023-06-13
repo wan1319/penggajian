@@ -17,7 +17,7 @@ const AuthLoginPage = () => {
         AuthService.login(user)
             .then((response) => {
                 AuthService.saveToken(response.data.token);
-                navigate("/dashboard");
+                navigate("/user");
             })
             .catch((error) => alert(error));
     };

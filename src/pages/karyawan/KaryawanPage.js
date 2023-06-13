@@ -8,7 +8,7 @@ import KaryawanService from "../../services/KaryawanService";
 
 const KaryawanPage = () => {
   const navigate = useNavigate();
-  const [daftarKaryawan, setDaftarKaryawan] = useState([]);
+  const [daftarKaryawan, setDaftarKaryawan] = useState({});
   const [paginateKaryawan, setPaginateKaryawan] = useState([]);
   const [queryKaryawan, setQueryKaryawan] = useState({ page: 1, limit: 10 });
 
@@ -32,7 +32,7 @@ const KaryawanPage = () => {
   };
 
   return (
-    
+
     <NavigationWidget
       buttonCreate={
         <Button onClick={() => navigate("/karyawan/add")}>
@@ -57,7 +57,6 @@ const KaryawanPage = () => {
             <tr>
               <th>ID Karyawan</th>
               <th>Nama Karyawan</th>
-              <th>Gaji Pokok</th>
               <th>Golongan</th>
               <th>Jabatan</th>
               <th>Divisi</th>
@@ -65,19 +64,18 @@ const KaryawanPage = () => {
               <th>Jumlah Anak</th>
             </tr>
           </thead>
-          <tbody>
-            {daftarKaryawan.map((karyawan, index) => {
+          <tbody onClick={() => navigate("/karyawan/edit/:ID_Karyawan")}>
+            {daftarKaryawan.results && daftarKaryawan.results.map((karyawan, index) => (
               <tr key={index}>
                 <td>{karyawan.ID_Karyawan}</td>
                 <td>{karyawan.Nama_Karyawan}</td>
-                <td>{karyawan.Gaji_Pokok}</td>
                 <td>{karyawan.ID_Golongan}</td>
                 <td>{karyawan.ID_Jabatan}</td>
                 <td>{karyawan.Divisi}</td>
                 <td>{karyawan.Status_Pernikahan}</td>
                 <td>{karyawan.Jumlah_Anak}</td>
               </tr>
-            })}
+            ))}
           </tbody>
         </Table>
       </Card>

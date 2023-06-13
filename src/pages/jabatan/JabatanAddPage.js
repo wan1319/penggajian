@@ -3,23 +3,23 @@ import NavigationWidget from "../../widgets/commons/NavigationWidget";
 import { FaArrowLeft, FaSave } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import GolonganService from "../../services/GolonganService";
+import JabatanService from "../../services/JabatanService";
 
-const GolonganAddPage = () => {
+const JabatanAddPage = () => {
     const navigate = useNavigate();
-    const [golongan, setGolongan] = useState({});
+    const [jabatan, setJabatan] = useState({});
 
     const handleInput = (e) => {
         let name = e.target.name;
         let value = e.target.value;
 
-        setGolongan((values) => ({ ...values, [name]: value }));
+        setJabatan((values) => ({ ...values, [name]: value }));
     };
 
-    const handleGolonganServiceCreate = () => {
-        GolonganService.create(golongan).then((response) => {
-            alert("Golongan berhasil ditambahkan.");
-            navigate("/golongan");
+    const handleJabatanServiceCreate = () => {
+        JabatanService.create(jabatan).then((response) => {
+            alert("Jabatan berhasil ditambahkan.");
+            navigate("/Jabatan");
         });
     };
 
@@ -30,7 +30,7 @@ const GolonganAddPage = () => {
                     <Button className="me-2" variant="secondary" onClick={() => navigate(-1)}>
                         <FaArrowLeft /> Kembali
                     </Button>
-                    <Button onClick={handleGolonganServiceCreate}>
+                    <Button onClick={handleJabatanServiceCreate}>
                         <FaSave /> Simpan
                     </Button>
                 </>
@@ -38,24 +38,22 @@ const GolonganAddPage = () => {
         >
             <Card>
                 <Card.Header>
-                    <h5>Tambah Golongan</h5>
+                    <h5>Tambah Jabatan</h5>
                 </Card.Header>
                 <Card.Body>
                     <Form.Group>
-                        <Form.Label>ID Golongan</Form.Label>
+                        <Form.Label>ID Jabatan</Form.Label>
                         <Form.Control
-                            name="ID_Golongan"
-                            value={golongan.ID_Golongan || ""}
-                            onChange={handleInput}
-                        />
+                            name="ID_Jabatan"
+                            value={jabatan.ID_Jabatan || ""}
+                            onChange={handleInput} />
                     </Form.Group>
                     <Form.Group className="mt-3">
-                        <Form.Label>Nama Golongan</Form.Label>
+                        <Form.Label>Nama Jabatan</Form.Label>
                         <Form.Control
-                            name="Nama_Golongan"
-                            value={golongan.Nama_Golongan || ""}
-                            onChange={handleInput}
-                        />
+                            name="Nama_Jabatan"
+                            value={jabatan.Nama_Jabatan || ""}
+                            onChange={handleInput} />
                     </Form.Group>
                 </Card.Body>
             </Card>
@@ -63,4 +61,4 @@ const GolonganAddPage = () => {
     );
 };
 
-export default GolonganAddPage;
+export default JabatanAddPage;
