@@ -76,7 +76,6 @@ const KaryawanChoiceWidget = ({
                         <tr>
                             <th>ID Karyawan</th>
                             <th>Nama Karyawan</th>
-                            <th>Gaji Pokok</th>
                             <th>Golongan</th>
                             <th>Jabatan</th>
                             <th>Divisi</th>
@@ -89,7 +88,6 @@ const KaryawanChoiceWidget = ({
                             <tr key={index}>
                                 <td>{karyawan.ID_Karyawan}</td>
                                 <td>{karyawan.Nama_Karyawan}</td>
-                                <td>{karyawan.Gaji_Pokok}</td>
                                 <td>{karyawan.ID_Golongan}</td>
                                 <td>{karyawan.ID_Jabatan}</td>
                                 <td>{karyawan.Divisi}</td>

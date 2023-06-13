@@ -62,7 +62,9 @@ const KaryawanEditPage = () => {
                 <Card.Body>
                     <Form.Group>
                         <Form.Label>ID Karyawan</Form.Label>
-                        <Form.Control name="ID_Karyawan"
+                        <Form.Control
+                            disabled
+                            name="ID_Karyawan"
                             value={karyawan.ID_Karyawan || ""}
                             onChange={handleInput} />
                     </Form.Group>
