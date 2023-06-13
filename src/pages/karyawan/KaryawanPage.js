@@ -5,6 +5,7 @@ import { VscAdd } from "react-icons/vsc";
 import { FaSearch } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import KaryawanService from "../../services/KaryawanService";
+import Paginator from "../../widgets/commons/PaginatorWidget";
 
 const KaryawanPage = () => {
   const navigate = useNavigate();
@@ -49,8 +50,9 @@ const KaryawanPage = () => {
       }
     >
       <Card className="mt-2">
-        <Card.Header className="bg-secondary text-light">
+        <Card.Header className="bg-secondary text-light d-flex justify-content-between align-items-center">
           <h5>Karyawan</h5>
+          <Paginator paginate={paginateKaryawan} callbackPaginator={callbackPaginator} />
         </Card.Header>
         <Table striped bordered hover size="sm">
           <thead>
@@ -66,8 +68,9 @@ const KaryawanPage = () => {
           </thead>
           <tbody>
             {daftarKaryawan.results && daftarKaryawan.results.map((karyawan, index) => (
-              <tr key={index}
-              onClick={() => navigate(`/karyawan/edit/${karyawan.ID_Karyawan}`)}>
+              <tr
+                key={index}
+                onClick={() => navigate(`/karyawan/edit/${karyawan.ID_Karyawan}`)}>
                 <td>{karyawan.ID_Karyawan}</td>
                 <td>{karyawan.Nama_Karyawan}</td>
                 <td>{karyawan.ID_Golongan}</td>

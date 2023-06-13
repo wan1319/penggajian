@@ -5,6 +5,7 @@ import { VscAdd } from "react-icons/vsc";
 import { FaSearch } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import UserService from "../../services/UserService"
+import Paginator from "../../widgets/commons/PaginatorWidget";
 
 const UserPage = () => {
   const navigate = useNavigate();
@@ -23,6 +24,14 @@ const UserPage = () => {
       .catch((error) => console.log(error));
   }, [queryUser]);
 
+  const callbackPaginator = (page) => {
+    setQueryUser((values) => ({ ...values, page }));
+  };
+
+  const callbackUserSearchInlineWidget = (query) => {
+    setQueryUser((values) => ({ ...values, ...query }));
+  };
+
   return (
     <NavigationWidget
       buttonCreate={
@@ -40,8 +49,9 @@ const UserPage = () => {
       }
     >
       <Card className="mt-2">
-        <Card.Header className="bg-secondary text-light">
+      <Card.Header className="bg-secondary text-light d-flex justify-content-between align-items-center">
           <h5>User</h5>
+          <Paginator paginate={paginateUser} callbackPaginator={callbackPaginator} />
         </Card.Header>
         <Table striped bordered hover size="sm">
           <thead>
@@ -55,7 +65,7 @@ const UserPage = () => {
             {daftarUser.results && daftarUser.results.map((user, index) => (
               <tr
                 key={index}
-                onClick={() => navigate(`/user/edit/${user.email}`)}>
+                onClick={() => navigate(`/user/edit`)}>
                 <td>{user.email}</td>
                 <td>{user.NamaLengkap}</td>
                 <td>{user.Status}</td>

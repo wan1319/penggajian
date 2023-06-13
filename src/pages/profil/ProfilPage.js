@@ -58,8 +58,7 @@ const ProfilPage = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {daftarProfil.results &&
-                            daftarProfil.results.map((profil, index) => (
+                        {daftarProfil.results && daftarProfil.results.map((profil, index) => (
                                 <tr key={index}>
                                     <td>{profil.ID_Profil}</td>
                                     <td>{profil.Nama}</td>
