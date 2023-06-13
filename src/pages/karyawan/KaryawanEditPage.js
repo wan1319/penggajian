@@ -24,7 +24,7 @@ const KaryawanEditPage = () => {
     }, [ID_Karyawan]);
 
     const handleKaryawanServiceEdit = () => {
-        KaryawanService.edit(ID_Karyawan, karyawan).then(() => {
+        KaryawanService.edit(ID_Karyawan, karyawan).then((response) => {
             alert(`Berhasil mengubah data karyawan ${ID_Karyawan}`);
             navigate("/karyawan");
         });
@@ -103,8 +103,6 @@ const KaryawanEditPage = () => {
                         <Form.Label>Jumlah Anak</Form.Label>
                         <Form.Control name="Jumlah_Anak"
                             value={karyawan.Jumlah_Anak || ""}
-                            isValid={parseInt(karyawan.Jumlah_Anak) > 0}
-                            isInvalid={parseInt(karyawan.Jumlah_Anak) < 0}
                             onChange={handleInput} />
                     </Form.Group>
                 </Card.Body>

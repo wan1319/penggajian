@@ -24,7 +24,7 @@ const GolonganEditPage = () => {
     }, [ID_Golongan]);
 
     const handleGolonganServiceEdit = () => {
-        GolonganService.edit(ID_Golongan, golongan).then(() => {
+        GolonganService.edit(ID_Golongan, golongan).then((response) => {
             alert(`Berhasil mengubah data golongan ${ID_Golongan}`);
             navigate("/golongan");
         });

@@ -24,7 +24,7 @@ const UserEditPage = () => {
     }, [ID_User]);
 
     const handleUserServiceEdit = () => {
-        UserService.edit(ID_User, user).then(() => {
+        UserService.edit(ID_User, user).then((response) => {
             alert(`Berhasil mengubah data user ${ID_User}`);
             navigate("/user");
         });

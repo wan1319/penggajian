@@ -24,7 +24,7 @@ const PotonganEditPage = () => {
     }, [ID_Potongan]);
 
     const handlePotonganServiceEdit = () => {
-        PotonganService.edit(ID_Potongan, potongan).then(() => {
+        PotonganService.edit(ID_Potongan, potongan).then((response) => {
             alert(`Berhasil mengubah data potongan ${ID_Potongan}`);
             navigate("/potongan");
         });

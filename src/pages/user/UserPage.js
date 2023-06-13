@@ -2,8 +2,6 @@ import { Button, Card, Form, InputGroup, Table } from "react-bootstrap";
 import NavigationWidget from "../../widgets/commons/NavigationWidget";
 import { useNavigate } from "react-router-dom";
 import { VscAdd } from "react-icons/vsc";
-import { FiEdit } from "react-icons/fi";
-import { RiDeleteBin5Fill } from "react-icons/ri";
 import { FaSearch } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import UserService from "../../services/UserService"
@@ -53,14 +51,16 @@ const UserPage = () => {
               <th>Status</th>
             </tr>
           </thead>
-          <tbody onClick={() => navigate("/user/edit")}>
-          {daftarUser.results && daftarUser.results.map((user, index) => (
-                <tr key={index}>
-                  <td>{user.email}</td>
-                  <td>{user.NamaLengkap}</td>
-                  <td>{user.Status}</td>
-                </tr>
-              ))}
+          <tbody>
+            {daftarUser.results && daftarUser.results.map((user, index) => (
+              <tr
+                key={index}
+                onClick={() => navigate(`/user/edit/${user.email}`)}>
+                <td>{user.email}</td>
+                <td>{user.NamaLengkap}</td>
+                <td>{user.Status}</td>
+              </tr>
+            ))}
           </tbody>
         </Table>
       </Card>

@@ -64,9 +64,10 @@ const KaryawanPage = () => {
               <th>Jumlah Anak</th>
             </tr>
           </thead>
-          <tbody onClick={() => navigate("/karyawan/edit/:ID_Karyawan")}>
+          <tbody>
             {daftarKaryawan.results && daftarKaryawan.results.map((karyawan, index) => (
-              <tr key={index}>
+              <tr key={index}
+              onClick={() => navigate(`/karyawan/edit/${karyawan.ID_Karyawan}`)}>
                 <td>{karyawan.ID_Karyawan}</td>
                 <td>{karyawan.Nama_Karyawan}</td>
                 <td>{karyawan.ID_Golongan}</td>

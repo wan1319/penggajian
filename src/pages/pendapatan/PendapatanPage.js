@@ -60,13 +60,15 @@ const PendapatanPage = () => {
               <th>Nama Pendapatan</th>
             </tr>
           </thead>
-          <tbody onClick={() => navigate("/pendapatan/edit/:ID_Pendapatan")}>
-          {daftarPendapatan.results && daftarPendapatan.results.map((pendapatan, index) => (
-                <tr key={index}>
-                  <td>{pendapatan.ID_Pendapatan}</td>
-                  <td>{pendapatan.Nama_Pendapatan}</td>
-                </tr>
-              ))}
+          <tbody>
+            {daftarPendapatan.results && daftarPendapatan.results.map((pendapatan, index) => (
+              <tr
+                key={index}
+                onClick={() => navigate(`/pendapatan/edit/${pendapatan.ID_Pendapatan}`)}>
+                <td>{pendapatan.ID_Pendapatan}</td>
+                <td>{pendapatan.Nama_Pendapatan}</td>
+              </tr>
+            ))}
           </tbody>
         </Table>
       </Card>

@@ -50,11 +50,13 @@ const PotonganPage = () => {
               <th>Nama Potongan</th>
             </tr>
           </thead>
-          <tbody onClick={() => navigate("/potongan/edit/:ID_Potongan")}>
-            {daftarPotongan.results && daftarPotongan.results.map((Potongan, index) => (
-                <tr key={index}>
-                  <td>{Potongan.ID_Potongan}</td>
-                  <td>{Potongan.Nama_Potongan}</td>
+          <tbody>
+            {daftarPotongan.results && daftarPotongan.results.map((potongan, index) => (
+                <tr
+                key={index}
+                onClick={() => navigate(`/potongan/edit/${potongan.ID_Potongan}`)}>
+                  <td>{potongan.ID_Potongan}</td>
+                  <td>{potongan.Nama_Potongan}</td>
                 </tr>
               ))}
           </tbody>

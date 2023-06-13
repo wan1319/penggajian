@@ -24,7 +24,7 @@ const PendapatanEditPage = () => {
     }, [ID_Pendapatan]);
 
     const handlePendapatanServiceEdit = () => {
-        PendapatanService.edit(ID_Pendapatan, pendapatan).then(() => {
+        PendapatanService.edit(ID_Pendapatan, pendapatan).then((response) => {
             alert(`Berhasil mengubah data pendapatan ${ID_Pendapatan}`);
             navigate("/pendapatan");
         });

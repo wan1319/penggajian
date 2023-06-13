@@ -58,13 +58,15 @@ const JabatanPage = () => {
               <th>Nama Jabatan</th>
             </tr>
           </thead>
-          <tbody onClick={() => navigate("/jabatan/edit/:ID_Jabatan")}>
+          <tbody>
             {daftarJabatan.results && daftarJabatan.results.map((jabatan, index) => (
-                <tr key={index}>
-                  <td>{jabatan.ID_Jabatan}</td>
-                  <td>{jabatan.Nama_Jabatan}</td>
-                </tr>
-              ))}
+              <tr
+                key={index}
+                onClick={() => navigate(`/jabatan/edit/${jabatan.ID_Jabatan}`)}>
+                <td>{jabatan.ID_Jabatan}</td>
+                <td>{jabatan.Nama_Jabatan}</td>
+              </tr>
+            ))}
           </tbody>
         </Table>
       </Card>

@@ -24,7 +24,7 @@ const JabatanEditPage = () => {
     }, [ID_Jabatan]);
 
     const handleJabatanServiceEdit = () => {
-        JabatanService.edit(ID_Jabatan, jabatan).then(() => {
+        JabatanService.edit(ID_Jabatan, jabatan).then((response) => {
             alert(`Berhasil mengubah data jabatan ${ID_Jabatan}`);
             navigate("/jabatan");
         });

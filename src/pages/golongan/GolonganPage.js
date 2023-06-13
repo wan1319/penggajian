@@ -58,9 +58,11 @@ const GolonganPage = () => {
               <th>Nama Golongan</th>
             </tr>
           </thead>
-          <tbody onClick={() => navigate("/golongan/edit/:ID_Golongan")}>
+          <tbody>
           {daftarGolongan.results && daftarGolongan.results.map((golongan, index) => (
-              <tr key={index}>
+            <tr
+            key={index}
+            onClick={() => navigate(`/golongan/edit/${golongan.ID_Golongan}`)}>
                 <td>{golongan.ID_Golongan}</td>
                 <td>{golongan.Nama_Golongan}</td>
               </tr>
