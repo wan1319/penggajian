@@ -1,182 +1,240 @@
-import { Button, Card, Col, Form, Row } from "react-bootstrap";
+import { Button, Card, Col, Form, Row, Table } from "react-bootstrap";
 import NavigationWidget from "../../widgets/commons/NavigationWidget";
 import { useNavigate } from "react-router-dom";
 import { MdCancel } from "react-icons/md";
 import { FaSave } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import PendapatanService from "../../services/PendapatanService";
+import PotonganService from "../../services/PotonganService";
+import GajiService from "../../services/GajiService";
+
+const initGaji = {
+  ID_Gaji: null,
+  Tanggal: null,
+  email: null,
+  ID_Karyawan: null,
+  ID_Profil: null,
+  Keterangan: null,
+  itemsPendapatan: [],
+  itemsPotongan: [],
+};
 
 const PenggajianInputPage = () => {
+  const [gaji, setGaji] = useState(initGaji);
+  const [daftarPotongan, setDaftarPotongan] = useState([]);
+  const [daftarPendapatan, setDaftarPendapatan] = useState([]);
+
+
+  const [queryPendapatan, setQueryPendapatan] = useState({ page: 1, limit: 10 });
+  const [paginatePendapatan, setPaginatePendapatan] = useState([]);
+
+  const [paginatePotongan, setPaginatePotongan] = useState([]);
+  const [queryPotongan, setQueryPotongan] = useState({ page: 1, limit: 10 });
   const navigate = useNavigate();
+
+  useEffect(() => {
+    PotonganService.list(daftarPotongan)
+      .then((response) => {
+        setDaftarPotongan(response.data.results);
+        if (response.headers.pagination) {
+          setPaginatePotongan(JSON.parse(response.headers.pagination));
+        }
+      })
+      .catch((error) => console.log(error));
+    PendapatanService.list(daftarPendapatan)
+      .then((response) => {
+        console.log(response.data.results);
+        setDaftarPendapatan(response.data.results);
+        if (response.headers.pagination) {
+          setPaginatePendapatan(JSON.parse(response.headers.pagination));
+        }
+      })
+      .catch((error) => console.log(error));
+  }, [queryPendapatan, queryPotongan]);
+
+  const callbackPaginator = (page) => {
+    setQueryPendapatan((values) => ({ ...values, page }));
+  };
+
+  const handleInput = (e) => {
+    let name = e.target.name;
+    let value = e.target.value;
+
+    setGaji((values) => ({ ...values, [name]: value }));
+  };
+  const handleInputPotongan = (e, index) => {
+    const { name, value } = e.target;
+    setGaji((prevGaji) => ({
+      ...prevGaji,
+      itemsPotongan: {
+        ...prevGaji.itemsPotongan,
+        [index]: {
+          ...prevGaji.itemsPotongan[index],
+          [name]: value,
+          ID_Potongan: daftarPotongan[index].ID_Potongan,
+        },
+      },
+    }));
+  };
+
+  const handleInputPendapatan = (e, index) => {
+    const { name, value } = e.target;
+    setGaji((prevGaji) => ({
+      ...prevGaji,
+      itemsPendapatan: {
+        ...prevGaji.itemsPendapatan,
+        [index]: {
+          ...prevGaji.itemsPendapatan[index],
+          [name]: value,
+          ID_Pendapatan: daftarPendapatan[index].ID_Pendapatan,
+        },
+      },
+    }));
+  };
+
+  const handleGajiServiceCreate = () => {
+    const { itemsPendapatan, itemsPotongan, ...gajiData } = gaji;
+
+    const formattedItemsPendapatan = Object.values(itemsPendapatan); // Convert to array
+    const formattedItemsPotongan = Object.values(itemsPotongan); // Convert to array
+
+    const updatedGaji = {
+      ...gajiData,
+      itemsPendapatan: formattedItemsPendapatan,
+      itemsPotongan: formattedItemsPotongan,
+    };
+
+    GajiService.create(updatedGaji)
+      .then((response) => {
+        alert("Gaji berhasil ditambahkan.");
+        navigate("/penggajian");
+      })
+      .catch((error) => console.log(error));
+  };
 
   return (
     <NavigationWidget
       actionTop={
         <>
-          <Button className="me-2" variant="danger" onClick={() => navigate(-1)}>
+          <Button className="me-2" variant="danger" >
             <MdCancel /> Batal
           </Button>
-          <Button onClick={() => navigate("/penggajian/list")}>
+          <Button onClick={handleGajiServiceCreate}>
             <FaSave /> Simpan
           </Button>
         </>
       }
     >
-      <Card>
+      <Card style={{ marginBottom: "20px" }}>
         <Card.Header>
           <h5>Input Data Penggajian</h5>
         </Card.Header>
-
         <Card.Body>
           <Row>
-            <Col md={4}>
+            <Col md={6}>
               <Form.Group>
                 <Form.Label>ID Gaji</Form.Label>
-                <Form.Control name="" />
+                <Form.Control name="ID_Gaji"
+                  onChange={handleInput}
+                />
               </Form.Group>
-              {/* <Form.Group className="mt-3">
-                <Form.Label>Tanggal Entry</Form.Label>
-                <Form.Control name="" />
-              </Form.Group>
-              <Form.Group className="mt-3">
-                <Form.Label>ID Karyawan</Form.Label>
-                <Form.Control />
-                <Form.Label>Nama Karyawan</Form.Label>
-                <Form.Control />
-              </Form.Group> */}
-            </Col>
-            <Col md={4}>
               <Form.Group>
                 <Form.Label>Tanggal Entry</Form.Label>
-                <Form.Control />
+                <Form.Control name="Tanggal"
+                  onChange={handleInput}
+                  type="date" />
               </Form.Group>
-              {/* <Form.Group className="mt-3">
-                <Form.Label>Divisi</Form.Label>
-                <Form.Control />
-              </Form.Group>
-              <Form.Group className="mt-3">
-                <Form.Label>Golongan</Form.Label>
-                <Form.Control />
-              </Form.Group> */}
+
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Label>ID Karyawan</Form.Label>
+                  <Form.Control name="ID_Karyawan"
+                    onChange={handleInput} />
+
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label>Email</Form.Label>
+                  <Form.Control
+                    name="email"
+                    onChange={handleInput}
+                    type="email"
+                  />
+                </Form.Group>
+              </Col>
             </Col>
-            <Col md={4}>
+            <Col md={6}>
               <Form.Group>
-                <Form.Label>ID Karyawan</Form.Label>
-                <Form.Control />
+                <Form.Label>ID Profil</Form.Label>
+                <Form.Control name="ID_Profil"
+                  onChange={handleInput}
+                />
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Keterangan</Form.Label>
+                <Form.Control name="Keterangan"
+                  onChange={handleInput}
+                />
               </Form.Group>
             </Col>
           </Row>
         </Card.Body>
-      </Card>
-      {/* 
-      <Row>
-        <Col md={6}>
-          <Card className="mt-2">
-            <Card.Header className="bg-secondary text-light">
-              <h5>Pendpatan</h5>
-            </Card.Header>
-            <Table striped bordered hover size="sm">
-              <thead>
-                <tr>
-                  <th>ID Potongan</th>
-                  <th>Nama Potongan</th>
-                  <th>Jumlah Potongan</th>
+      </Card >
+      <Card.Body>
+        <Card.Header>
+          <h5>Accounting</h5>
+        </Card.Header>
+        <Card.Body>
+          <Table>
+            <thead>
+              <tr>
+                <th style={{ width: "13%" }}>ID Pendapatan</th>
+                <th>Nama Pendapatan</th>
+                <th>Jumlah</th>
+              </tr>
+            </thead>
+            <tbody>
+              {daftarPendapatan.length > 0 && daftarPendapatan.map((pendapatan, index) => (
+                <tr key={index}>
+                  <td>{pendapatan.ID_Pendapatan}</td>
+                  <td>{pendapatan.Nama_Pendapatan}</td>
+                  <td>
+                    <Form.Group>
+                      <Form.Control
+                        name="Jumlah_Pendapatan"
+                        onChange={(e) => handleInputPendapatan(e, index)}
+                      />
+                    </Form.Group>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>PD-001</td>
-                  <td>Gaji Pokok</td>
-                  <td>250.000</td>
-                </tr>
-                <tr>
-                  <td>PD-002</td>
-                  <td>Tunjangan Jabatan</td>
-                  <td>251.000</td>
-                </tr>
-                <tr>
-                  <td>PD-003</td>
-                  <td>Tunjangan Golongan</td>
-                  <td>252.000</td>
-                </tr>
-                <tr>
-                  <td>PD-005</td>
-                  <td>Tunjangan Keluarga</td>
-                  <td>253.000</td>
-                </tr>
-                <tr>
-                  <td>PD-006</td>
-                  <td>Tunjangan Anak</td>
-                  <td>254.000</td>
-                </tr>
-                <tr>
-                  <td>PD-007</td>
-                  <td>Uang Tansport</td>
-                  <td>255.000</td>
-                </tr>
-                <tr>
-                  <td>PD-008</td>
-                  <td>Uang Makan</td>
-                  <td>256.000</td>
-                </tr>
-                <tr>
-                  <td>PD-009</td>
-                  <td>Uang Lembur</td>
-                  <td>257.000</td>
-                </tr>
-                <tr>
-                  <td>PD-010</td>
-                  <td>Uang Lain-lain</td>
-                  <td>258.000</td>
-                </tr>
-              </tbody>
-            </Table>
-          </Card>
-        </Col>
-
-        <Col md={6}>
-          <Card className="mt-2">
-            <Card.Header className="bg-secondary text-light">
-              <h5>Potongan</h5>
-            </Card.Header>
-            <Table striped bordered hover size="sm">
-              <thead>
-                <tr>
-                  <th>ID Potongan</th>
-                  <th>Nama Potongan</th>
-                  <th>Jumlah Potongan</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>PO-001</td>
-                  <td>PPh 21</td>
-                  <td>350.000</td>
-                </tr>
-                <tr>
-                  <td>PO-002</td>
-                  <td>BPJS</td>
-                  <td>351.000</td>
-                </tr>
-                <tr>
-                  <td>PO-003</td>
-                  <td>Simpanan Wajib Koperasi</td>
-                  <td>352.000</td>
-                </tr>
-                <tr>
-                  <td>PO-004</td>
-                  <td>Pinjaman Koperasi</td>
-                  <td>353.000</td>
-                </tr>
-                <tr>
-                  <td>PO-005</td>
-                  <td>Potongan Lain-lain</td>
-                  <td>354.000</td>
-                </tr>
-              </tbody>
-            </Table>
-          </Card>
-        </Col>
-      </Row> */}
-    </NavigationWidget>
+              ))}
+            </tbody>
+          </Table>
+        </Card.Body>
+        <Table>
+          <thead>
+            <tr>
+              <th style={{ width: "13%" }}>ID Potongan</th>
+              <th>Nama Potongan</th>
+              <th>Jumlah</th>
+            </tr>
+          </thead>
+          <tbody>
+            {daftarPotongan.length > 0 && daftarPotongan.map((potongan, index) => (
+              <tr key={index}>
+                <td>{potongan.ID_Potongan}</td>
+                <td>{potongan.Nama_Potongan}</td>
+                <td>
+                  <Form.Control
+                    name="Jumlah_Potongan"
+                    onChange={(e) => handleInputPotongan(e, index)}
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </Card.Body>
+    </NavigationWidget >
   );
 };
 

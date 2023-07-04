@@ -1,170 +1,89 @@
-import { Button, Card, Col, Row, Table } from "react-bootstrap";
+import { Button, Card, Col, Form, InputGroup, Row, Table } from "react-bootstrap";
 import NavigationWidget from "../../widgets/commons/NavigationWidget";
-import { MdCancel } from "react-icons/md";
-import { FaSave } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import GajiService from "../../services/GajiService";
+import { useEffect, useState } from "react";
+import PenggajianChoiceWidget from "../../widgets/penggajian/PenggajianChoiceWidget";
 
 const PenggajianListPage = () => {
-  const navigate = useNavigate("/penggajian/list");
+  const [daftarGaji, setDaftarGaji] = useState({});
+  const [queryGaji, setQueryGaji] = useState({ page: 1, limit: 10 });
+  const [paginateGaji, setPaginateGaji] = useState([]);
+  useEffect(() => {
+    GajiService.list(daftarGaji)
+      .then((response) => {
+        setDaftarGaji(response.data);
+        if (response.headers.pagination) {
+          setPaginateGaji(JSON.parse(response.headers.pagination));
+        }
+      })
+      .catch((error) => console.log(error));
+  }, [queryGaji]);
+
+  const callbackPaginator = (page) => {
+    setQueryGaji((values) => ({ ...values, page }));
+  };
+
+  const callbackGajiSearchInlineWidget = (query) => {
+    setQueryGaji((values) => ({ ...values, ...query }));
+  };
+
+
   return (
     <NavigationWidget
-      actionTop={
-        <>
-          <Button className="me-2" variant="danger" onClick={() => navigate(-1)}>
-            <MdCancel /> Batal
-          </Button>
-          <Button>
-            <FaSave /> Simpan
-          </Button>
-        </>
-      }
+    // buttonCreate={
+    //   <Button onClick={() => Navigate("/penggajian/input")}>
+    //     <VscAdd />  Tambah
+    //   </Button>
+    // }
+    //   actionTop={
+    //     <GajiSearchInlineWidget
+    //     attr={{ variant: "secondary" }}
+    //     isShowGaji={true}
+    //     isShowID_Karyawan={true}
+    //     callbackGajiSearchInlineWidget={
+    //         callbackGajiSearchInlineWidget
+    //     }
+    // />
+    //       }
+
     >
-      <Card>
-        <Card.Header>
-          <h5>Data Penggajian</h5>
+      <Card className="mt-2">
+        <Card.Header className="bg-secondary text-light">
+          <h5>List Penggajian</h5>
         </Card.Header>
-
-        <Card.Body>
-          <Table >
-            <thead>
-              <tr>
-                <th>ID Gaji</th>
-                <th>Tanggal Entri</th>
-                <th>ID Karyawan</th>
-                <th>Nama Karyawan</th>
-                <th>Jabatan</th>
-                <th>Divisi</th>
-                <th>Golongan</th>
-                <th>Status Pernikahan</th>
-                <th>Jumlah Anak</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>PG-001</td>
-                <td>8 juni 2023</td>
-                <td>KY-001</td>
-                <td>Kiki Putra</td>
-                <td>Manager</td>
-                <td>Divisi-01</td>
-                <td>Golongan-01</td>
-                <td>Menikah</td>
-                <td>2</td>
-              </tr>
-            </tbody>
-          </Table>
-        </Card.Body>
+        <Table striped bordered hover size="sm">
+          <thead>
+            <tr>
+              <th>ID Gaji</th>
+              <th>Tanggal</th>
+              <th>ID Karyawan</th>
+              <th>Total Gaji</th>
+              <th>Total Potongan</th>
+              <th>Gaji Bersih</th>
+              <th>Keterangan</th>
+              {/* <th>Email</th>
+              <th>ID Profil</th> */}
+            </tr>
+          </thead>
+          <tbody>
+            {daftarGaji.results &&
+              daftarGaji.results.map((gaji, index) => (
+                <tr key={index}>
+                  <td>{gaji.ID_Gaji}</td>
+                  <td>{gaji.Tanggal}</td>
+                  <td>{gaji.ID_Karyawan}</td>
+                  <td>{gaji.Total_Pendapatan}</td>
+                  <td>{gaji.Total_Potongan}</td>
+                  <td>{gaji.Gaji_Bersih}</td>
+                  <td>{gaji.Keterangan}</td>
+                  {/* <td>{gaji.email}</td>
+                  <td>{gaji.ID_Profil}</td> */}
+                  <PenggajianChoiceWidget ID_Gaji={gaji.ID_Gaji} />
+                </tr>
+              ))}
+          </tbody>
+        </Table>
       </Card>
-
-      <Row>
-        <Col md={6}>
-          <Card className="mt-2">
-            <Card.Header className="bg-secondary text-light">
-              <h5>Pendapatan</h5>
-            </Card.Header>
-            <Table striped bordered hover size="sm">
-              <thead>
-                <tr>
-                  <th>ID Potongan</th>
-                  <th>Nama Potongan</th>
-                  <th>Jumlah Potongan</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>PD-001</td>
-                  <td>Gaji Pokok</td>
-                  <td>250.000</td>
-                </tr>
-                <tr>
-                  <td>PD-002</td>
-                  <td>Tunjangan Jabatan</td>
-                  <td>251.000</td>
-                </tr>
-                <tr>
-                  <td>PD-003</td>
-                  <td>Tunjangan Golongan</td>
-                  <td>252.000</td>
-                </tr>
-                <tr>
-                  <td>PD-005</td>
-                  <td>Tunjangan Keluarga</td>
-                  <td>253.000</td>
-                </tr>
-                <tr>
-                  <td>PD-006</td>
-                  <td>Tunjangan Anak</td>
-                  <td>254.000</td>
-                </tr>
-                <tr>
-                  <td>PD-007</td>
-                  <td>Uang Tansport</td>
-                  <td>255.000</td>
-                </tr>
-                <tr>
-                  <td>PD-008</td>
-                  <td>Uang Makan</td>
-                  <td>256.000</td>
-                </tr>
-                <tr>
-                  <td>PD-009</td>
-                  <td>Uang Lembur</td>
-                  <td>257.000</td>
-                </tr>
-                <tr>
-                  <td>PD-010</td>
-                  <td>Uang Lain-lain</td>
-                  <td>258.000</td>
-                </tr>
-              </tbody>
-            </Table>
-          </Card>
-        </Col>
-
-        <Col md={6}>
-          <Card className="mt-2">
-            <Card.Header className="bg-secondary text-light">
-              <h5>Potongan</h5>
-            </Card.Header>
-            <Table striped bordered hover size="sm">
-              <thead>
-                <tr>
-                  <th>ID Potongan</th>
-                  <th>Nama Potongan</th>
-                  <th>Jumlah Potongan</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>PO-001</td>
-                  <td>PPh 21</td>
-                  <td>350.000</td>
-                </tr>
-                <tr>
-                  <td>PO-002</td>
-                  <td>BPJS</td>
-                  <td>351.000</td>
-                </tr>
-                <tr>
-                  <td>PO-003</td>
-                  <td>Simpanan Wajib Koperasi</td>
-                  <td>352.000</td>
-                </tr>
-                <tr>
-                  <td>PO-004</td>
-                  <td>Pinjaman Koperasi</td>
-                  <td>353.000</td>
-                </tr>
-                <tr>
-                  <td>PO-005</td>
-                  <td>Potongan Lain-lain</td>
-                  <td>354.000</td>
-                </tr>
-              </tbody>
-            </Table>
-          </Card>
-        </Col>
-      </Row>
     </NavigationWidget>
   );
 };

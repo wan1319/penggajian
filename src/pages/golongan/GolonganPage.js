@@ -2,9 +2,9 @@ import { Button, Card, Form, InputGroup, Table } from "react-bootstrap";
 import NavigationWidget from "../../widgets/commons/NavigationWidget";
 import { useNavigate } from "react-router-dom";
 import { VscAdd } from "react-icons/vsc";
-import { FaSearch } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import GolonganService from "../../services/GolonganService";
+import GolonganSearchInlineWidget from "../../widgets/golongan/GolonganSearchInlineWidget";
 import Paginator from "../../widgets/commons/PaginatorWidget";
 
 const GolonganPage = () => {
@@ -39,14 +39,14 @@ const GolonganPage = () => {
           <VscAdd />  Tambah
         </Button>
       }
-      actionTop={
-        <InputGroup >
-          <Form.Control />
-          <Button size="sm" variant="outline-secondary">
-            <FaSearch />  Search
-          </Button>
-        </InputGroup>
-      }
+      // actionTop={
+      //   <GolonganSearchInlineWidget
+      //     attr={{ variant: "secondary" }}
+      //     isShowID_Golongan={true}
+      //     isShowNama_Golongan={true}
+      //     callbackGolonganSearchInlineWidget={callbackGolonganSearchInlineWidget}
+      //   />
+      // }
     >
       <Card className="mt-2">
         <Card.Header className="bg-secondary text-light d-flex justify-content-between align-items-center">

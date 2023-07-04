@@ -2,10 +2,10 @@ import { Button, Card, Form, InputGroup, Table } from "react-bootstrap";
 import NavigationWidget from "../../widgets/commons/NavigationWidget";
 import { useNavigate } from "react-router-dom";
 import { VscAdd } from "react-icons/vsc";
-import { FaSearch } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import KaryawanService from "../../services/KaryawanService";
 import Paginator from "../../widgets/commons/PaginatorWidget";
+import KaryawanSearchInlineWidget from "../../widgets/karyawan/KaryawanSearchInlineWidget";
 
 const KaryawanPage = () => {
   const navigate = useNavigate();
@@ -40,14 +40,14 @@ const KaryawanPage = () => {
           <VscAdd /> Tambah
         </Button>
       }
-      actionTop={
-        <InputGroup>
-          <Form.Control />
-          <Button size="sm" variant="outline-secondary">
-            <FaSearch /> Search
-          </Button>
-        </InputGroup>
-      }
+      // actionTop={
+      //   <KaryawanSearchInlineWidget
+      //     attr={{ variant: "secondary" }}
+      //     isShowID_Karyawan={true}
+      //     isShowNama_Karyawan={true}
+      //     callbackKaryawanSearchInlineWidget={callbackKaryawanSearchInlineWidget}
+      //   />
+      // }
     >
       <Card className="mt-2">
         <Card.Header className="bg-secondary text-light d-flex justify-content-between align-items-center">

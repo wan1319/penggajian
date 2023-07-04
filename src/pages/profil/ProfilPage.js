@@ -11,6 +11,7 @@ const ProfilPage = () => {
     const [daftarProfil, setDaftarProfil] = useState([]);
     const [paginateProfil, setPaginateProfil] = useState(null);
     const [queryProfil, setQueryProfil] = useState("");
+
     useEffect(() => {
         ProfilService.list(daftarProfil)
             .then((response) => {
@@ -18,8 +19,6 @@ const ProfilPage = () => {
                 if (response.headers.pagination) {
                     setPaginateProfil(JSON.parse(response.headers.pagination));
                 }
-
-                // Cek keberadaan data profil
                 setIsProfileDataExist(response.data.length > 0);
             })
             .catch((error) => console.log(error));
@@ -59,16 +58,16 @@ const ProfilPage = () => {
                     </thead>
                     <tbody>
                         {daftarProfil.results && daftarProfil.results.map((profil, index) => (
-                                <tr key={index}>
-                                    <td>{profil.ID_Profil}</td>
-                                    <td>{profil.Nama}</td>
-                                    <td>{profil.Alamat}</td>
-                                    <td>{profil.Telepon}</td>
-                                    <td>{profil.Fax}</td>
-                                    <td>{profil.Email}</td>
-                                    <td>{profil.Website}</td>
-                                </tr>
-                            ))}
+                            <tr key={index}>
+                                <td>{profil.ID_Profil}</td>
+                                <td>{profil.Nama}</td>
+                                <td>{profil.Alamat}</td>
+                                <td>{profil.Telepon}</td>
+                                <td>{profil.Fax}</td>
+                                <td>{profil.Email}</td>
+                                <td>{profil.Website}</td>
+                            </tr>
+                        ))}
                     </tbody>
                 </Table>
             </Card>

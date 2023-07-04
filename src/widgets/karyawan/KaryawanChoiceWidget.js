@@ -100,9 +100,9 @@ const KaryawanChoiceWidget = ({
                                 </td>
                             </tr>
                         })}
-                </tbody>
-            </Table>
-        </Modal >
+                    </tbody>
+                </Table>
+            </Modal >
         </>
     );
 };

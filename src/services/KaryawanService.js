@@ -29,11 +29,7 @@ KaryawanService.get = (ID_Karyawan) => {
 
 KaryawanService.edit = (ID_Karyawan, karyawan) => {
     CONFIG_HTTP.params = null;
-    return HTTPService.put(
-        `${config.BASE_URL}/karyawan/${ID_Karyawan}`,
-        karyawan,
-        CONFIG_HTTP
-    );
+    return HTTPService.put(`${config.BASE_URL}/karyawan/${ID_Karyawan}`, karyawan, CONFIG_HTTP);
 };
 
 KaryawanService.delete = (ID_Karyawan) => {

@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button, Card, Form } from "react-bootstrap";
 import { FaArrowLeft, FaSave, FaTrash } from "react-icons/fa";
-import KaryawanService from "../../services/KaryawanService";
 import NavigationWidget from "../../widgets/commons/NavigationWidget";
+import KaryawanService from "../../services/KaryawanService";
 
 const KaryawanEditPage = () => {
     const navigate = useNavigate();
@@ -57,16 +57,15 @@ const KaryawanEditPage = () => {
         }>
             <Card>
                 <Card.Header>
-                    <h5>Tambah Karyawan</h5>
+                    <h5>Edit Karyawan</h5>
                 </Card.Header>
                 <Card.Body>
                     <Form.Group>
                         <Form.Label>ID Karyawan</Form.Label>
                         <Form.Control
-                            disabled
                             name="ID_Karyawan"
-                            value={karyawan.ID_Karyawan || ""}
-                            onChange={handleInput} />
+                            disabled
+                            value={karyawan.ID_Karyawan || ""}/>
                     </Form.Group>
                     <Form.Group className="mt-3">
                         <Form.Label>Nama Karyawan</Form.Label>
@@ -76,32 +75,37 @@ const KaryawanEditPage = () => {
                             onChange={handleInput} />
                     </Form.Group>
                     <Form.Group className="mt-3">
-                        <Form.Label>ID Golongan</Form.Label>
-                        <Form.Control name="ID_Golongan"
+                        <Form.Label>Golongan</Form.Label>
+                        <Form.Control
+                            name="ID_Golongan"
                             value={karyawan.ID_Golongan || ""}
                             onChange={handleInput} />
                     </Form.Group>
                     <Form.Group className="mt-3">
-                        <Form.Label>ID Jabatan</Form.Label>
-                        <Form.Control name="ID_Jabatan"
+                        <Form.Label>Jabatan</Form.Label>
+                        <Form.Control
+                            name="ID_Jabatan"
                             value={karyawan.ID_Jabatan || ""}
                             onChange={handleInput} />
                     </Form.Group>
                     <Form.Group className="mt-3">
                         <Form.Label>Divisi</Form.Label>
-                        <Form.Control name="Divisi"
+                        <Form.Control
+                            name="Divisi"
                             value={karyawan.Divisi || ""}
                             onChange={handleInput} />
                     </Form.Group>
                     <Form.Group className="mt-3">
                         <Form.Label>Status Pernikahan</Form.Label>
-                        <Form.Control name="Status_Pernikahan"
+                        <Form.Control
+                            name="Status_Pernikahan"
                             value={karyawan.Status_Pernikahan || ""}
                             onChange={handleInput} />
                     </Form.Group>
                     <Form.Group className="mt-3">
                         <Form.Label>Jumlah Anak</Form.Label>
-                        <Form.Control name="Jumlah_Anak"
+                        <Form.Control
+                            name="Jumlah_Anak"
                             value={karyawan.Jumlah_Anak || ""}
                             onChange={handleInput} />
                     </Form.Group>
