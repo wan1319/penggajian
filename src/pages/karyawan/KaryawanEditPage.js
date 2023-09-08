@@ -57,7 +57,7 @@ const KaryawanEditPage = () => {
         }>
             <Card>
                 <Card.Header>
-                    <h5>Edit Karyawan</h5>
+                    <h5>Edit Employee</h5>
                 </Card.Header>
                 <Card.Body>
                     <Form.Group>
